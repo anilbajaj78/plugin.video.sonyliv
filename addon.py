@@ -13,7 +13,7 @@ currentDisplayCounter = 0
 
 # Version 2.0.0
 
-SHOW_BASE_URL = "http://www.sonyliv.com/"
+SHOW_BASE_URL = "https://www.sonyliv.com/"
 SHOW_EPISODE_URL = SHOW_BASE_URL + "api/v2/vod/search"
 
 
