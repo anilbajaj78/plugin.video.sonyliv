@@ -29,7 +29,7 @@ def main_branch():
 
     for rows in JSONObjs[0]["assets"]:
         title = rows["title"]
-        showname = rows["showname"]
+        showname = rows["title"]
         img_src = rows["thumbnailUrl"]
 
         h.add_dir(addon_handle, base_url, title, showname, "episodemenu~0", img_src, rows["posterUrl"])
