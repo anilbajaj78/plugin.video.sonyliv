@@ -14,7 +14,7 @@ currentDisplayCounter = 0
 # Version 2.0.0
 
 SHOW_BASE_URL = "https://www.sonyliv.com/"
-SHOW_EPISODE_URL = SHOW_BASE_URL + "api/v2/vod/search"
+SHOW_EPISODE_URL = SHOW_BASE_URL + "api/v4/vod/search"
 
 
 # Serials
@@ -32,7 +32,10 @@ def main_branch():
         showname = rows["title"]
         img_src = rows["thumbnailUrl"]
 
-        h.add_dir(addon_handle, base_url, title, showname, "episodemenu~0", img_src, rows["posterUrl"])
+        if 'posterUrl' in rows:
+            h.add_dir(addon_handle, base_url, title, showname, "episodemenu~0", img_src, rows["posterUrl"])
+        else:
+            h.add_dir(addon_handle, base_url, title, showname, "episodemenu~0", img_src, img_src)
 
     currentDisplayCounter = int(param1)
     if len(JSONObjs[0]["assets"]) >= 50 :
@@ -51,9 +54,11 @@ def show_episodes():
 
     for searchSet in JSONObjs:
         for rows in searchSet["assets"]:
-            title = rows["title"].encode('utf-8') #+ " (" + rows["releaseDate"].encode('utf-8') + ")"
-            img_src = rows["thumbnailUrl"]
-            h.add_dir_video(addon_handle, title, rows["hlsUrl"], img_src, rows["shortDesc"])
+            title = rows["title"]
+            if rows["releaseDate"] != "":
+                title = title + " (" + str(rows["releaseDate"]) + ")"
+
+            h.add_dir_video(addon_handle, title, rows["hlsUrl"], img_src, rows["shortDesc"], int(rows["duration"])/1000)
 
     currentDisplayCounter = int(param1)
     if len(JSONObjs[0]["assets"]) >= 50 :
